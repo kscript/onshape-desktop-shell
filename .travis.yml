@@ -7,6 +7,12 @@ matrix:
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    - os: window
+      language: node_js
+      node_js: "10"
+      env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
 cache:
   directories:
@@ -15,7 +21,12 @@ cache:
   - $HOME/.cache/electron-builder
 
 script:
-  yarn release
+  - |
+    if [ "$TRAVIS_OS_NAME" == "window" ]; then
+      yarn release
+    else
+      yarn release
+    fi
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
